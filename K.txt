@@ -1,0 +1,21 @@
+import socket
+
+# 创建 socket 对象
+c = socket.socket()
+# 连接本机 8888 端口
+c.connect(("127.0.0.1", 8888))
+
+while True:
+    # 等待你在键盘输入一句话
+    msg = input("请输入要发送的消息（直接回车退出）：")
+    # 如果直接按了回车（空字符串），就退出
+    if msg == "":
+        # 发送一个空消息，告诉服务端我要走了
+        c.send("".encode())
+        print("已退出。")
+        break
+    # 把消息编码后发出去
+    c.send(msg.encode())
+
+# 关闭连接
+c.close()

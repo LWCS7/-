@@ -1,0 +1,29 @@
+import socket
+
+# 创建 socket 对象
+s = socket.socket()
+# 绑定本机 8888 端口
+s.bind(("127.0.0.1", 8888))
+# 开始监听
+s.listen(1)
+print("服务端已启动，等待客户端连接...")
+
+# 等待客户端连进来
+conn, addr = s.accept()
+print("客户端已连接：", addr)
+
+while True:
+    # 接收消息，最多 1024 字节
+    data = conn.recv(1024)
+    # 解码成文字
+    msg = data.decode()
+    # 如果收到空消息（对方按回车退出），就跳出循环
+    if msg == "":
+        print("客户端已断开，服务端也退出。")
+        break
+    # 打印收到的消息
+    print("收到消息：", msg)
+
+# 关掉连接和 socket
+conn.close()
+s.close()
